@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.allen.frameworkexample.R;
 
 import butterknife.Bind;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (App.getInstance() != null) {
             App.getInstance().cancelPendingRequests(TAG);
         }
+
     }
 
     private void getJson() {
@@ -78,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getImage() {
-
+        ImageLoader imageLoader = new ImageLoader(App.getInstance().getRequestQueue(), new MyImageCache());
+        ImageLoader.ImageListener listener = ImageLoader.getImageListener(mImageview,
+                R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        imageLoader.get("https://d262ilb51hltx0.cloudfront.net/max/800/1*dWGwx6UUjc0tocYzFNBLEw.jpeg",
+                listener, 800, 800);
     }
+
+
 }
