@@ -40,7 +40,7 @@ public class App extends Application {
         getRequestQueue();
         if (mImageLoader == null) {
             mImageLoader = new ImageLoader(this.mRequestQueue,
-                    new MyImageCache());
+                    new LruBitmapCache(this));
         }
         return this.mImageLoader;
     }
