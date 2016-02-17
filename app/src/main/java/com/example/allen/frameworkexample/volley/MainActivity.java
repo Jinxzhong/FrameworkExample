@@ -1,5 +1,6 @@
 package com.example.allen.frameworkexample.volley;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,29 +10,55 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.example.allen.frameworkexample.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Allen Lin on 2016/02/17.
  */
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
+    public static final String mJsonUrl = "http://www.mocky.io/v2/56c33f991200002d3773f261";
+    public static final String mImageUrl = "https://d262ilb51hltx0.cloudfront.net/max/800/1*dWGwx6UUjc0tocYzFNBLEw.jpeg";
+
     @Bind(R.id.textview)
     TextView mTextview;
     @Bind(R.id.imageview)
     ImageView mImageview;
+    @Bind(R.id.circleimageview)
+    CircleImageView mCircleimageview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_volley);
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("volley example");
         getJson();
         getImage();
+        getCircleImage();
+    }
+
+    private void getCircleImage() {
+        mCircleimageview.setImageResource(R.mipmap.ic_default);
+        ImageRequest imageRequest =
+                new ImageRequest(mImageUrl, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        mCircleimageview.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, ImageView.ScaleType.CENTER_INSIDE, null,
+                        new Response.ErrorListener() {
+                            public void onErrorResponse(VolleyError error) {
+                                mCircleimageview.setImageResource(R.mipmap.ic_error);
+                            }
+                        });
+
+        App.getInstance().addRequest(imageRequest);
 
     }
 
@@ -61,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
         //新建一个JsonObject请求
         GsonRequest<Person> gsonRequest = new GsonRequest<Person>(
-                "http://www.mocky.io/v2/56c33f991200002d3773f261", Person.class,
+                mJsonUrl, Person.class,
                 new Response.Listener<Person>() {
                     @Override
                     public void onResponse(Person person) {
@@ -87,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader imageLoader = App.getInstance().getImageLoader();
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(mImageview,
                 R.mipmap.ic_default, R.mipmap.ic_error);
-        imageLoader.get("https://d262ilb51hltx0.cloudfront.net/max/800/1*dWGwx6UUjc0tocYzFNBLEw.jpeg",
-                listener, 800, 800);
+        imageLoader.get(mImageUrl, listener, 0, 0);//0b
+
+
     }
 
 
