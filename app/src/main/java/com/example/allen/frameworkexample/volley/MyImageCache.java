@@ -6,18 +6,20 @@ import android.util.LruCache;
 import com.android.volley.toolbox.ImageLoader;
 
 /**
- * Allen Lin 2016/02
+ * Created by Allen Lin on 2016/02/17.
  */
 public class MyImageCache implements ImageLoader.ImageCache {
 
     private LruCache<String, Bitmap> mCache;
 
     public MyImageCache() {
-        int maxSize = 10 * 1024 * 1024;
+        int maxSize = 8 * 1024 * 1024;
         mCache = new LruCache<String, Bitmap>(maxSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
+                //getRowBytes()返回图片每行的字节数，乘以高度得到图片的size
                 return bitmap.getRowBytes() * bitmap.getHeight();
+
             }
         };
     }

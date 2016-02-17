@@ -12,7 +12,7 @@ import com.android.volley.Response.Listener;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Allen Lin 2016/02
+ * Created by Allen Lin on 2016/02/17.
  */
 public class GsonRequest<T> extends Request<T> {
 
@@ -41,7 +41,7 @@ public class GsonRequest<T> extends Request<T> {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             return Response.success(mGson.fromJson(jsonString, mClass),
-                    HttpHeaderParser.parseCacheHeaders(response));
+                    HttpHeaderParser.parseCacheHeaders(response));//用Gson解析返回Java对象
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         }
@@ -49,7 +49,7 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     protected void deliverResponse(T response) {
-        mListener.onResponse(response);
+        mListener.onResponse(response);//回调T对象
     }
 
 }

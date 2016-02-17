@@ -1,7 +1,7 @@
 package com.example.allen.frameworkexample.volley;
 
 /**
- * Allen Lin 2016/02
+ * Created by Allen Lin on 2016/02/17.
  */
 public class Person {
 

@@ -14,6 +14,9 @@ import com.example.allen.frameworkexample.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Created by Allen Lin on 2016/02/17.
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     @Bind(R.id.textview)
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        getSupportActionBar().setTitle("volley example");
         getJson();
         getImage();
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (App.getInstance() != null) {
-            App.getInstance().cancelPendingRequests(TAG);
+            App.getInstance().cancelRequests(TAG);
         }
 
     }
@@ -76,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //添加请求到队列
-        App.getInstance().addToRequestQueue(gsonRequest, TAG);
+        App.getInstance().addRequest(gsonRequest, TAG);
     }
 
     private void getImage() {
-        ImageLoader imageLoader = new ImageLoader(App.getInstance().getRequestQueue(), new MyImageCache());
+        ImageLoader imageLoader = App.getInstance().getImageLoader();
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(mImageview,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+                R.mipmap.ic_default, R.mipmap.ic_error);
         imageLoader.get("https://d262ilb51hltx0.cloudfront.net/max/800/1*dWGwx6UUjc0tocYzFNBLEw.jpeg",
                 listener, 800, 800);
     }
