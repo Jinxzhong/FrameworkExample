@@ -1,7 +1,6 @@
 package com.example.allen.frameworkexample.volley;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,7 +30,6 @@ public class App extends Application {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext(),
                     new OkHttp3Stack());
-            Log.d("myLog", "OkHttp3Stack ");
         }
         return mRequestQueue;
     }

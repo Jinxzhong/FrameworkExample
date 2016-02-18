@@ -23,8 +23,6 @@ package com.example.allen.frameworkexample.volley;
  * THE SOFTWARE.
  */
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.HttpStack;
@@ -65,7 +63,7 @@ public class OkHttp3Stack implements HttpStack {
     @Override
     public HttpResponse performRequest(com.android.volley.Request<?> request, Map<String, String> additionalHeaders)
             throws IOException, AuthFailureError {
-        Log.d("myLog", "performRequest ");
+
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         int timeoutMs = request.getTimeoutMs();
 
@@ -85,7 +83,6 @@ public class OkHttp3Stack implements HttpStack {
         }
 
         setConnectionParametersForRequest(okHttpRequestBuilder, request);
-        Log.d("myLog", "performRequest3 ");
         OkHttpClient client = clientBuilder.build();
         okhttp3.Request okHttpRequest = okHttpRequestBuilder.build();
         Call okHttpCall = client.newCall(okHttpRequest);
@@ -133,7 +130,6 @@ public class OkHttp3Stack implements HttpStack {
                 break;
             case Request.Method.GET:
                 builder.get();
-                Log.d("myLog", "performRequest2 ");
                 break;
             case Request.Method.DELETE:
                 builder.delete();

@@ -43,25 +43,6 @@ public class MainActivity extends AppCompatActivity {
         getCircleImage();
     }
 
-    private void getCircleImage() {
-        mCircleimageview.setImageResource(R.mipmap.ic_default);
-        ImageRequest imageRequest =
-                new ImageRequest(mImageUrl, new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        mCircleimageview.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, ImageView.ScaleType.CENTER_INSIDE, null,
-                        new Response.ErrorListener() {
-                            public void onErrorResponse(VolleyError error) {
-                                mCircleimageview.setImageResource(R.mipmap.ic_error);
-                            }
-                        });
-
-        App.getInstance().addRequest(imageRequest);
-
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -72,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getJson() {
-        //新建一个JsonObject请求
+        //1.新建一个JsonObject请求
 //        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("http://www.mocky.io/v2/56c33f991200002d3773f261", null,
 //                new Response.Listener<JSONObject>() {
 //                    @Override
@@ -86,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.e(TAG, error.getMessage(), error);
 //            }
 //        });
-        //新建一个JsonObject请求
+        //2.新建一个GsonRequest请求
         GsonRequest<Person> gsonRequest = new GsonRequest<Person>(
                 mJsonUrl, Person.class,
                 new Response.Listener<Person>() {
@@ -114,10 +95,25 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader imageLoader = App.getInstance().getImageLoader();
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(mImageview,
                 R.mipmap.ic_default, R.mipmap.ic_error);
-        imageLoader.get(mImageUrl, listener, 0, 0);//0b
-
-
+        imageLoader.get(mImageUrl, listener, 0, 0);//0为不压缩
     }
 
+    private void getCircleImage() {
+        mCircleimageview.setImageResource(R.mipmap.ic_default);
+        ImageRequest imageRequest =
+                new ImageRequest(mImageUrl, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        mCircleimageview.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, ImageView.ScaleType.CENTER_INSIDE, null,
+                        new Response.ErrorListener() {
+                            public void onErrorResponse(VolleyError error) {
+                                mCircleimageview.setImageResource(R.mipmap.ic_error);
+                            }
+                        });
 
+        App.getInstance().addRequest(imageRequest);
+
+    }
 }
